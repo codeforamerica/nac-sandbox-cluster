@@ -1,0 +1,86 @@
+name: Prepare k8s-manifests Deploy PR
+
+on:
+  push:
+    branches: [ releases/k8s-manifests ]
+
+env:
+  BRANCH_RELEASE: releases/k8s-manifests
+  BRANCH_DEPLOY: deploys/k8s-manifests
+
+
+jobs:
+  prepare-k8s-manifests:
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ env.BRANCH_RELEASE }}
+
+    - name: Configure .kube/config
+      run: |
+        test -e ~/.kube || mkdir ~/.kube
+
+        echo "${{ secrets.KUBECONFIG_BASE64 }}" | base64 -d > ~/.kube/config
+
+    - name: Install kubectl-neat-diff
+      run: |
+        sudo wget https://github.com/sh0rez/kubectl-neat-diff/releases/download/v0.1.0/kubectl-neat-diff-linux-amd64 -O /usr/local/bin/kubectl-neat-diff
+        sudo chmod +x /usr/local/bin/kubectl-neat-diff
+        echo "KUBECTL_EXTERNAL_DIFF=kubectl-neat-diff" >> $GITHUB_ENV
+
+    - name: Generate diff
+      run: |
+        (
+          find . \
+            -maxdepth 1 \
+            -type d \
+            -not -name '.*' \
+            -print0 \
+          | sort -z \
+          | xargs -r0 -n 1 kubectl diff -Rf || true
+        ) > /tmp/kube.diff
+
+    - name: Create/update pull request
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        # build PR description body
+        diff_size=$(stat -c%s /tmp/kube.diff)
+        pr_head_describe="$(git describe --always --tag)"
+
+        pr_body="$(cat <<EOF
+        Deploy ${BRANCH_RELEASE} ${pr_head_describe}
+
+        \`kubectl diff\` reports that applying ${pr_head_describe} will change:
+
+        \`\`\`diff
+        $(if (( diff_size > 50000)); then echo 'diff too big; review locally'; else cat /tmp/kube.diff; fi)
+        \`\`\`
+        EOF
+        )"
+
+
+        # generate initial commit for base if needed
+        if ! git ls-remote --exit-code --heads origin "${BRANCH_DEPLOY}"; then
+          git fetch origin --unshallow
+          _first_projected_commit=$(git rev-list --max-parents=0 --first-parent HEAD)
+          git push origin "${_first_projected_commit}:refs/heads/${BRANCH_DEPLOY}"
+        fi
+
+
+        # check for existing PR
+        _existing_pr_number=$(hub pr list -h "${BRANCH_RELEASE}" -f '%I')
+
+        if [ -n "${_existing_pr_number}" ]; then
+          echo "Updating PR #${_existing_pr_number}"
+          hub issue update "${_existing_pr_number}" -F <(echo "${pr_body}")
+        else
+          echo "Opening PR"
+          hub pull-request -b "${BRANCH_DEPLOY}" -h "${BRANCH_RELEASE}" -F <(echo "${pr_body}") > /tmp/pr.json
+        fi
+
+    # - uses: mxschmitt/action-tmate@v3
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
