@@ -1,0 +1,22 @@
+name: 'Publish holobranches'
+
+on:
+  push:
+    branches: [ main ]
+
+env:
+  GITHUB_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
+  HAB_LICENSE: accept-no-persist
+
+
+jobs:
+
+  publish-holobranches:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: 'Update holobranch: releases/k8s-manifests'
+      uses: JarvusInnovations/hologit@actions/projector/v1
+      with:
+        holobranch: k8s-manifests-github
+        commit-to: releases/k8s-manifests
