@@ -1,0 +1,3 @@
+[holomapping]
+holosource = "civic-cloud=>github-workflows"
+files = "**"
