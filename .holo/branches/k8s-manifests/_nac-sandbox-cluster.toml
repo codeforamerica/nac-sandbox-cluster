@@ -1,5 +1,6 @@
 [holomapping]
 files = [
     "**",
-    "!README.md"
+    "!README.md",
+    "!mkdocs.*.yml",
 ]

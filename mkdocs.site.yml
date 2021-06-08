@@ -1,0 +1,8 @@
+site_name: NAC Sandbox Cluster
+repo_url: https://github.com/codeforamerica/nac-sandbox-cluster
+site_url: https://codeforamerica.github.io/nac-sandbox-cluster
+edit_uri: edit/main/docs
+
+extra:
+  cluster:
+    wildcard_hostname: sandbox.k8s.brigade.cloud
