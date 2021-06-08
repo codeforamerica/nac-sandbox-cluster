@@ -20,3 +20,9 @@ jobs:
       with:
         holobranch: k8s-manifests-github
         commit-to: releases/k8s-manifests
+
+    - name: 'Update holobranch: gh-pages'
+      uses: JarvusInnovations/hologit@actions/projector/v1
+      with:
+        holobranch: docs-site
+        commit-to: gh-pages
