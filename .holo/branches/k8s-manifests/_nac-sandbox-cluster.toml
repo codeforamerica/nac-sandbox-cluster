@@ -1,6 +1,7 @@
 [holomapping]
 files = [
     "**",
+    "!.markdownlint.yaml",
     "!README.md",
     "!mkdocs.*.yml",
 ]
