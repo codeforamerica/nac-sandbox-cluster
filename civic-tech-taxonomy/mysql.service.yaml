@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  namespace: civic-tech-taxonomy
+spec:
+  selector:
+    service: mysql
+  type: ClusterIP
+  ports:
+  - name: mysql
+    port: 3306
