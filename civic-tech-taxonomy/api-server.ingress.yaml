@@ -1,7 +1,7 @@
 kind: Ingress
 apiVersion: extensions/v1beta1
 metadata:
-  name: api-server'
+  name: api-server
   namespace: civic-tech-taxonomy
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
