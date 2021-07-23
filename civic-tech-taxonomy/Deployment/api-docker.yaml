@@ -13,7 +13,16 @@ spec:
         app: api-server
     spec:
       containers:
-        - image: 'ghcr.io/codeforamerica/civic-tech-taxonomy/api-server:latest'
+        - env:
+            - name: DB_HOST
+              value: mysql.civic-tech-taxonomy.svc.cluster.local
+            - name: DB_USER
+              value: root
+            - name: DB_PWD
+              value: JNVdnoK8PvWG6qrjh1UAnMClMsQrJSIk
+            - name: DB_DB
+              value: cfa_project_index
+          image: 'ghcr.io/codeforamerica/civic-tech-taxonomy/api-server:latest'
           name: api-server
           ports:
             - containerPort: 8081
