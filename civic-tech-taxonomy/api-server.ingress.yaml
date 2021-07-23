@@ -1,0 +1,21 @@
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  name: api-server'
+  namespace: civic-tech-taxonomy
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+spec:
+  tls:
+    - hosts:
+        - api.taxonomy.sandbox.k8s.brigade.cloud
+      secretName: api-server-tls
+  rules:
+    - host: api.taxonomy.sandbox.k8s.brigade.cloud
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: api-server
+              servicePort: 80
