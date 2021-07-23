@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-docker
+  namespace: civic-tech-taxonomy
+spec:
+  selector:
+    matchLabels:
+      app: api-server
+  template:
+    metadata:
+      labels:
+        app: api-server
+    spec:
+      containers:
+        - image: 'ghcr.io/codeforamerica/civic-tech-taxonomy/api-server:latest'
+          name: api-server
+          ports:
+            - containerPort: 8081
+              name: http
