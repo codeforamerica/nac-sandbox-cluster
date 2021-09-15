@@ -473,7 +473,7 @@
 <p>1. Change the tag portion of the line to match the hash for the one that was just built
   1. Commit your change directly to the <code>main</code> branch on the cluster repository if you have access, otherwise open a pull request and ask a cluster administrator to merge it for you. <strong>No change will actually get applied to the cluster at this point</strong>
 1. After the <code>image</code> value has been updated in the <code>main</code> branch in the <code>nac-sandbox-cluster</code> repository, that repository&rsquo;s <a href="https://github.com/codeforamerica/nac-sandbox-cluster/actions/workflows/prepare-k8s-manifests.yml"><code>prepare-k8s-manifests</code> action</a> will prepare an automated PR for deploying the change to the cluster. Review that PR and ask a cluster administrator to merge it for you.
-1. Once the deploy PR is merged, the new version should be online within a few minutes.</p>
+1. Once the deploy PR is merged, the new version should be online within a few minutes. The deploy process can be monitored via the <a href="https://github.com/codeforamerica/nac-sandbox-cluster/actions/workflows/deploy-k8s-manifests.yml"><code>deploy-k8s-manifests</code> workflow under the Actions tab</a>. After that workflow completes, the new version has been applied to the cluster but the cluster then has to download the new container image and restart the deployment.</p>
 </li>
 </ol>
                 
