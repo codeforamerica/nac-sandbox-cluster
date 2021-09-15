@@ -457,13 +457,16 @@
                 
                 
                 <h1 id="api">API<a class="headerlink" href="#api" title="Permanent link"> ¶</a></h1>
+<p>The <a href="https://github.com/codeforamerica/civic-tech-taxonomy/tree/master/tools/api-server"><code>civic-tech-taxonomy</code>&lsquo;s <code>api-server</code> tool</a> is deployed on this cluster at <a href="https://api.taxonomy.sandbox.k8s.brigade.cloud">https://api.taxonomy.sandbox.k8s.brigade.cloud</a></p>
 <h2 id="deployment">Deployment<a class="headerlink" href="#deployment" title="Permanent link"> ¶</a></h2>
 <ol>
 <li>Merge or push new commits into the <code>master</code> branch in the <a href="https://github.com/codeforamerica/civic-tech-taxonomy"><code>civic-tech-taxonomy</code> repository</a></li>
 <li>After pushing to the <code>master</code> branch, you should see the <code>publish-api-server</code> GitHub Action running or already complete <a href="https://github.com/codeforamerica/civic-tech-taxonomy/actions/workflows/publish-api-server.yml">under the Actions tab</a></li>
 <li>Once the action finishes, you should be able to confirm that a new tag has been push for <a href="https://github.com/codeforamerica/civic-tech-taxonomy/pkgs/container/civic-tech-taxonomy%2Fapi-server">the <code>api-server</code> container image</a> matching the SHA of your latest commit to the <code>master</code> branch that it was built from</li>
-<li>In the <a href="https://github.com/codeforamerica/nac-sandbox-cluster"><code>nac-sandbox-cluster</code> repository</a>, edit the file <a href="https://github.com/codeforamerica/nac-sandbox-cluster/blob/main/civic-tech-taxonomy/api-server.yaml"><code>civic-tech-taxonomy/api-server.yaml</code></a> which declares the deployment for the <code>api-server</code> instance hosted on the cluster
-    1. Find the line specifying the container image path+tag:<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<li>
+<p>In the <a href="https://github.com/codeforamerica/nac-sandbox-cluster"><code>nac-sandbox-cluster</code> repository</a>, edit the file <a href="https://github.com/codeforamerica/nac-sandbox-cluster/blob/main/civic-tech-taxonomy/api-server.yaml"><code>civic-tech-taxonomy/api-server.yaml</code></a> which declares the deployment for the <code>api-server</code> instance hosted on the cluster</p>
+<p>1. Find the line specifying the container image path+tag:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>  ```yaml
   image: ghcr.io/codeforamerica/civic-tech-taxonomy/api-server:abcdef1
@@ -471,10 +474,12 @@
 </code></pre></div>
 </td></tr></table>
 <p>1. Change the tag portion of the line to match the hash for the one that was just built
-  1. Commit your change directly to the <code>main</code> branch on the cluster repository if you have access, otherwise open a pull request and ask a cluster administrator to merge it for you. <strong>No change will actually get applied to the cluster at this point</strong>
-1. After the <code>image</code> value has been updated in the <code>main</code> branch in the <code>nac-sandbox-cluster</code> repository, that repository&rsquo;s <a href="https://github.com/codeforamerica/nac-sandbox-cluster/actions/workflows/prepare-k8s-manifests.yml"><code>prepare-k8s-manifests</code> action</a> will prepare an automated PR for deploying the change to the cluster. Review that PR and ask a cluster administrator to merge it for you.
-1. Once the deploy PR is merged, the new version should be online within a few minutes. The deploy process can be monitored via the <a href="https://github.com/codeforamerica/nac-sandbox-cluster/actions/workflows/deploy-k8s-manifests.yml"><code>deploy-k8s-manifests</code> workflow under the Actions tab</a>. After that workflow completes, the new version has been applied to the cluster but the cluster then has to download the new container image and restart the deployment.</p>
+  1. Commit your change directly to the <code>main</code> branch on the cluster repository if you have access, otherwise open a pull request and ask a cluster administrator to merge it for you. <strong>No change will actually get applied to the cluster at this point</strong></p>
 </li>
+<li>
+<p>After the <code>image</code> value has been updated in the <code>main</code> branch in the <code>nac-sandbox-cluster</code> repository, that repository&rsquo;s <a href="https://github.com/codeforamerica/nac-sandbox-cluster/actions/workflows/prepare-k8s-manifests.yml"><code>prepare-k8s-manifests</code> action</a> will prepare an automated PR for deploying the change to the cluster. Review that PR and ask a cluster administrator to merge it for you.</p>
+</li>
+<li>Once the deploy PR is merged, the new version should be online within a few minutes. The deploy process can be monitored via the <a href="https://github.com/codeforamerica/nac-sandbox-cluster/actions/workflows/deploy-k8s-manifests.yml"><code>deploy-k8s-manifests</code> workflow under the Actions tab</a>. After that workflow completes, the new version has been applied to the cluster but the cluster then has to download the new container image and restart the deployment.</li>
 </ol>
                 
               
