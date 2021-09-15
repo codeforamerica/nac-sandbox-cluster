@@ -1,5 +1,7 @@
 # API
 
+The [`civic-tech-taxonomy`'s `api-server` tool](https://github.com/codeforamerica/civic-tech-taxonomy/tree/master/tools/api-server) is deployed on this cluster at <https://api.taxonomy.sandbox.k8s.brigade.cloud>
+
 ## Deployment
 
 1. Merge or push new commits into the `master` branch in the [`civic-tech-taxonomy` repository](https://github.com/codeforamerica/civic-tech-taxonomy)
