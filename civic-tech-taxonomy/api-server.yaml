@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: api-server
-        image: ghcr.io/codeforamerica/civic-tech-taxonomy/api-server:3b0bc68
+        image: ghcr.io/codeforamerica/civic-tech-taxonomy/api-server:0b220f9
         ports:
         - name: http
           containerPort: 8081
