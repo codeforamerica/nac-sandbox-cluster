@@ -22,7 +22,7 @@ spec:
               value: JNVdnoK8PvWG6qrjh1UAnMClMsQrJSIk
             - name: DB_DB
               value: cfa_project_index
-          image: 'ghcr.io/codeforamerica/civic-tech-taxonomy/api-server:ede0638'
+          image: 'ghcr.io/codeforamerica/civic-tech-taxonomy/api-server:2585049'
           name: api-server
           ports:
             - containerPort: 8081
