@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: prometheus
-    chart: prometheus-13.0.0
+    chart: prometheus-15.6.0
     component: server
     heritage: Helm
     release: prometheus
@@ -16,11 +16,14 @@ spec:
       app: prometheus
       component: server
       release: prometheus
+  strategy:
+    rollingUpdate: null
+    type: Recreate
   template:
     metadata:
       labels:
         app: prometheus
-        chart: prometheus-13.0.0
+        chart: prometheus-15.6.0
         component: server
         heritage: Helm
         release: prometheus
@@ -29,7 +32,7 @@ spec:
         - args:
             - '--volume-dir=/etc/config'
             - '--webhook-url=http://127.0.0.1:9090/-/reload'
-          image: 'jimmidyson/configmap-reload:v0.4.0'
+          image: 'jimmidyson/configmap-reload:v0.5.0'
           imagePullPolicy: IfNotPresent
           name: prometheus-server-configmap-reload
           resources: {}
@@ -44,13 +47,14 @@ spec:
             - '--web.console.libraries=/etc/prometheus/console_libraries'
             - '--web.console.templates=/etc/prometheus/consoles'
             - '--web.enable-lifecycle'
-          image: 'quay.io/prometheus/prometheus:v2.22.1'
+          image: 'quay.io/prometheus/prometheus:v2.34.0'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 3
             httpGet:
               path: /-/healthy
               port: 9090
+              scheme: HTTP
             initialDelaySeconds: 30
             periodSeconds: 15
             successThreshold: 1
@@ -63,6 +67,7 @@ spec:
             httpGet:
               path: /-/ready
               port: 9090
+              scheme: HTTP
             initialDelaySeconds: 30
             periodSeconds: 5
             successThreshold: 1
@@ -74,6 +79,9 @@ spec:
             - mountPath: /data
               name: storage-volume
               subPath: ''
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      hostNetwork: false
       securityContext:
         fsGroup: 65534
         runAsGroup: 65534
