@@ -2,27 +2,57 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://codeforamerica.github.io/nac-sandbox-cluster/</loc>
-         <lastmod>2021-09-19</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://codeforamerica.github.io/nac-sandbox-cluster/grafana/</loc>
-         <lastmod>2021-09-19</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://codeforamerica.github.io/nac-sandbox-cluster/ingress/</loc>
-         <lastmod>2021-09-19</lastmod>
+         <lastmod>2022-06-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://codeforamerica.github.io/nac-sandbox-cluster/civic-tech-taxonomy/api/</loc>
-         <lastmod>2021-09-19</lastmod>
+         <lastmod>2022-06-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://codeforamerica.github.io/nac-sandbox-cluster/civic-tech-taxonomy/mysql/</loc>
-         <lastmod>2021-09-19</lastmod>
+         <lastmod>2022-06-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://codeforamerica.github.io/nac-sandbox-cluster/development/</loc>
+         <lastmod>2022-06-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://codeforamerica.github.io/nac-sandbox-cluster/development/features/ingress/</loc>
+         <lastmod>2022-06-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://codeforamerica.github.io/nac-sandbox-cluster/development/features/sealed-secrets/</loc>
+         <lastmod>2022-06-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://codeforamerica.github.io/nac-sandbox-cluster/getting-started/</loc>
+         <lastmod>2022-06-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://codeforamerica.github.io/nac-sandbox-cluster/getting-started/service-setup/grafana/</loc>
+         <lastmod>2022-06-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://codeforamerica.github.io/nac-sandbox-cluster/getting-started/service-setup/sealed-secrets/</loc>
+         <lastmod>2022-06-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://codeforamerica.github.io/nac-sandbox-cluster/operations/</loc>
+         <lastmod>2022-06-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://codeforamerica.github.io/nac-sandbox-cluster/operations/upgrades/to-0.20/</loc>
+         <lastmod>2022-06-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
