@@ -1,5 +1,5 @@
 kind: Ingress
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 metadata:
   name: api-server
   namespace: civic-tech-taxonomy
@@ -16,6 +16,9 @@ spec:
       http:
         paths:
           - path: /
+            pathType: Prefix
             backend:
-              serviceName: api-server
-              servicePort: 80
+              service:
+                name: api-server
+                port:
+                  number: 80
