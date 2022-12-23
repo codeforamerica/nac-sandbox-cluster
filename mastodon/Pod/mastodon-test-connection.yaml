@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    helm.sh/hook: test-success
+  labels:
+    app.kubernetes.io/instance: mastodon
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: mastodon
+    app.kubernetes.io/version: v4.0.2
+    helm.sh/chart: mastodon-4.0.0
+  name: mastodon-test-connection
+  namespace: mastodon
+spec:
+  containers:
+    - args:
+        - 'mastodon-web:80'
+      command:
+        - wget
+      image: busybox
+      name: wget
+  restartPolicy: Never
