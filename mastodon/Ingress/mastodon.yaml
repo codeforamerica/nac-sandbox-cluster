@@ -15,7 +15,7 @@ metadata:
   namespace: mastodon
 spec:
   rules:
-    - host: mastodon.k8s.brigade.cloud
+    - host: mastodon.sandbox.k8s.brigade.cloud
       http:
         paths:
           - backend:
@@ -34,5 +34,5 @@ spec:
             pathType: Exact
   tls:
     - hosts:
-        - mastodon.k8s.brigade.cloud
+        - mastodon.sandbox.k8s.brigade.cloud
       secretName: mastodon-tls
