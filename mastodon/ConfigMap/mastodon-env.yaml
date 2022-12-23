@@ -24,6 +24,7 @@ data:
   SMTP_PORT: '587'
   SMTP_SERVER: smtp.mailgun.org
   STREAMING_CLUSTER_NUM: '1'
+  WEB_DOMAIN: mastodon.sandbox.k8s.brigade.cloud
 kind: ConfigMap
 metadata:
   labels:
