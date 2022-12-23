@@ -1,0 +1,137 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: coordinating-only
+    app.kubernetes.io/component: coordinating-only
+    app.kubernetes.io/instance: mastodon
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: elasticsearch
+    helm.sh/chart: elasticsearch-19.0.1
+  name: mastodon-elasticsearch-coordinating
+  namespace: mastodon
+spec:
+  podManagementPolicy: Parallel
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: coordinating-only
+      app.kubernetes.io/instance: mastodon
+      app.kubernetes.io/name: elasticsearch
+  serviceName: mastodon-elasticsearch-coordinating-hl
+  template:
+    metadata:
+      annotations: null
+      labels:
+        app: coordinating-only
+        app.kubernetes.io/component: coordinating-only
+        app.kubernetes.io/instance: mastodon
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: elasticsearch
+        helm.sh/chart: elasticsearch-19.0.1
+    spec:
+      affinity:
+        nodeAffinity: null
+        podAffinity: null
+        podAntiAffinity: null
+      containers:
+        - env:
+            - name: MY_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: BITNAMI_DEBUG
+              value: 'false'
+            - name: ELASTICSEARCH_CLUSTER_NAME
+              value: elastic
+            - name: ELASTICSEARCH_IS_DEDICATED_NODE
+              value: 'yes'
+            - name: ELASTICSEARCH_NODE_ROLES
+              value: ''
+            - name: ELASTICSEARCH_TRANSPORT_PORT_NUMBER
+              value: '9300'
+            - name: ELASTICSEARCH_HTTP_PORT_NUMBER
+              value: '9200'
+            - name: ELASTICSEARCH_CLUSTER_HOSTS
+              value: >-
+                mastodon-elasticsearch-master-hl.mastodon.svc.cluster.local,mastodon-elasticsearch-coordinating-hl.mastodon.svc.cluster.local,mastodon-elasticsearch-data-hl.mastodon.svc.cluster.local,mastodon-elasticsearch-ingest-hl.mastodon.svc.cluster.local,
+            - name: ELASTICSEARCH_TOTAL_NODES
+              value: '2'
+            - name: ELASTICSEARCH_CLUSTER_MASTER_HOSTS
+              value: mastodon-elasticsearch-master-0
+            - name: ELASTICSEARCH_MINIMUM_MASTER_NODES
+              value: '1'
+            - name: ELASTICSEARCH_ADVERTISED_HOSTNAME
+              value: >-
+                $(MY_POD_NAME).mastodon-elasticsearch-coordinating-hl.mastodon.svc.cluster.local
+            - name: ELASTICSEARCH_HEAP_SIZE
+              value: 128m
+          image: 'docker.io/bitnami/elasticsearch:7'
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            exec:
+              command:
+                - /opt/bitnami/scripts/elasticsearch/healthcheck.sh
+            failureThreshold: 5
+            initialDelaySeconds: 90
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          name: elasticsearch
+          ports:
+            - containerPort: 9200
+              name: rest-api
+            - containerPort: 9300
+              name: transport
+          readinessProbe:
+            exec:
+              command:
+                - /opt/bitnami/scripts/elasticsearch/healthcheck.sh
+            failureThreshold: 5
+            initialDelaySeconds: 90
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          resources:
+            limits: {}
+            requests:
+              cpu: 25m
+              memory: 256Mi
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1001
+          volumeMounts:
+            - mountPath: /bitnami/elasticsearch/data
+              name: data
+      initContainers:
+        - command:
+            - /bin/bash
+            - '-ec'
+            - |
+              CURRENT=`sysctl -n vm.max_map_count`;
+              DESIRED="262144";
+              if [ "$DESIRED" -gt "$CURRENT" ]; then
+                  sysctl -w vm.max_map_count=262144;
+              fi;
+              CURRENT=`sysctl -n fs.file-max`;
+              DESIRED="65536";
+              if [ "$DESIRED" -gt "$CURRENT" ]; then
+                  sysctl -w fs.file-max=65536;
+              fi;
+          image: 'docker.io/bitnami/bitnami-shell:11-debian-11-r13'
+          imagePullPolicy: IfNotPresent
+          name: sysctl
+          resources:
+            limits: {}
+            requests: {}
+          securityContext:
+            privileged: true
+            runAsUser: 0
+      securityContext:
+        fsGroup: 1001
+      serviceAccountName: default
+      volumes:
+        - emptyDir: {}
+          name: data
+  updateStrategy:
+    type: RollingUpdate

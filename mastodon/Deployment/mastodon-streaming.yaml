@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: mastodon
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: mastodon
+    app.kubernetes.io/version: v4.0.2
+    helm.sh/chart: mastodon-4.0.0
+  name: mastodon-streaming
+  namespace: mastodon
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: streaming
+      app.kubernetes.io/instance: mastodon
+      app.kubernetes.io/name: mastodon
+  template:
+    metadata:
+      annotations:
+        checksum/config-configmap: c1fab835e890923e63a73ef6d925bf2e9c9feae3d5baf7d74de00546022f7561
+        checksum/config-secrets: 403073b37391e4b68018b3394831baef7a9300bae4b4ec8c1ee6fbeac5fb7b2b
+        rollme: '1'
+      labels:
+        app.kubernetes.io/component: streaming
+        app.kubernetes.io/instance: mastodon
+        app.kubernetes.io/name: mastodon
+    spec:
+      containers:
+        - command:
+            - node
+            - ./streaming
+          env:
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: mastodon-postgresql
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: redis-password
+                  name: mastodon-redis
+            - name: PORT
+              value: '4000'
+          envFrom:
+            - configMapRef:
+                name: mastodon-env
+          image: 'tootsuite/mastodon:v4.0.2'
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /api/v1/streaming/health
+              port: streaming
+          name: mastodon-streaming
+          ports:
+            - containerPort: 4000
+              name: streaming
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /api/v1/streaming/health
+              port: streaming
+      securityContext:
+        fsGroup: 991
+        runAsGroup: 991
+        runAsUser: 991
+      serviceAccountName: mastodon

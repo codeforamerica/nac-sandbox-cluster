@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-body-size: 40m
+  labels:
+    app.kubernetes.io/instance: mastodon
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: mastodon
+    app.kubernetes.io/version: v4.0.2
+    helm.sh/chart: mastodon-4.0.0
+  name: mastodon
+  namespace: mastodon
+spec:
+  rules:
+    - host: mastodon.k8s.brigade.cloud
+      http:
+        paths:
+          - backend:
+              service:
+                name: mastodon-web
+                port:
+                  number: 3000
+            path: /
+            pathType: Prefix
+          - backend:
+              service:
+                name: mastodon-streaming
+                port:
+                  number: 4000
+            path: /api/v1/streaming/
+            pathType: Exact
+  tls:
+    - hosts:
+        - mastodon.k8s.brigade.cloud
+      secretName: mastodon-tls
