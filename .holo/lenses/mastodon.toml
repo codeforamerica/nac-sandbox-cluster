@@ -1,0 +1,19 @@
+[hololens]
+package = "holo/lens-helm3/1.22"
+
+[hololens.input]
+root = "mastodon"
+files = "**"
+
+[hololens.output]
+merge = "replace"
+
+[hololens.helm]
+namespace = "mastodon"
+release_name = "mastodon"
+namespace_fill = true
+
+chart_path = "helm-chart"
+value_files = [
+    "release-values.yaml"
+]
