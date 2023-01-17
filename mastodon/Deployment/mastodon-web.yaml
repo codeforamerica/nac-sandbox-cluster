@@ -20,7 +20,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config-configmap: c1fab835e890923e63a73ef6d925bf2e9c9feae3d5baf7d74de00546022f7561
+        checksum/config-configmap: ae9887455a348ef80cecda8f4f1f3dd94687b3a6360e31b1cd4b25fae27e484c
         checksum/config-secrets: 403073b37391e4b68018b3394831baef7a9300bae4b4ec8c1ee6fbeac5fb7b2b
         rollme: '1'
       labels:

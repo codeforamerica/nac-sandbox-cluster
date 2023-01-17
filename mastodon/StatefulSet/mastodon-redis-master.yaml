@@ -23,7 +23,7 @@ spec:
         checksum/configmap: 374efa7b4ee88eb900f331729c96d9737bceb8e46a22bae4d24e1cace87b1385
         checksum/health: b60b04221c667aebf4ea1198ad73906f1a22dc27dd4298eeb7929fa3bc9ff774
         checksum/scripts: fd5241f874c26b5ae25bc4ed8672f5303e6fc615cbd7f2e7265be7fc2eba712f
-        checksum/secret: d2a027dcbf718d6952c700b8c24802ff984c497f515c35930de03022223bef27
+        checksum/secret: 3873dbe5c3fe640458159bb99f7cb4a1b097a41ecc17f4f94081397a46d8f43c
       labels:
         app.kubernetes.io/component: master
         app.kubernetes.io/instance: mastodon
